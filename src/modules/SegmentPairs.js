@@ -31,7 +31,7 @@ export function getSegmentPair(segment, index, aquisitionPointIdentity, offset =
  return `<ResponseSignal acquisitionPointIdentity="${aquisitionPointIdentity}" acquisitionSignalID="${startSignalId}" signalPointID="${segmentStartPoint}" action="create">
      <sig:NPTPoint nptPoint="${segmentStartPoint}"/>
      <sig:SCTE35PointDescriptor spliceCommandType="06">
-       <sig:SegmentationDescriptorInfo segmentEventId="${segmentEventId}" segmentTypeId="${segmentTypeId}" upidType="9" upid="${startSignalId}" duration="PT${segmentDuration}S" segmentNumber="${index}" segmentsExpected="1"/>
+       <sig:SegmentationDescriptorInfo segmentEventId="${segmentEventId}" segmentTypeId="${segmentTypeId}" upidType="9" upid="${startSignalId}" duration="PT${segmentDuration}S" segmentNumber="${segmentEventId}" segmentsExpected="1"/>
      </sig:SCTE35PointDescriptor>
    </ResponseSignal>
    <ConditioningInfo acquisitionSignalIDRef="1" startOffset="PT${segmentStart}S" duration="PT${segmentDuration}S"/>
@@ -39,7 +39,7 @@ export function getSegmentPair(segment, index, aquisitionPointIdentity, offset =
    <ResponseSignal acquisitionPointIdentity="${aquisitionPointIdentity}" acquisitionSignalID="${endSignalId}" signalPointID="${segmentEndPoint}" action="create">
      <sig:NPTPoint nptPoint="${segmentEndPoint}"/>
      <sig:SCTE35PointDescriptor spliceCommandType="06">
-       <sig:SegmentationDescriptorInfo segmentEventId="${segmentEventId}" segmentTypeId="${segmentTypeIdEnd}" upidType="9" upid="${endSignalId}" duration="PT${segmentDuration}S" segmentNumber="${index}" segmentsExpected="1"/>
+       <sig:SegmentationDescriptorInfo segmentEventId="${segmentEventId}" segmentTypeId="${segmentTypeIdEnd}" upidType="9" upid="${endSignalId}" />
      </sig:SCTE35PointDescriptor>
    </ResponseSignal>`;
 }
