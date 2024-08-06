@@ -33,3 +33,73 @@ a,
     padding: 0 2rem;
   }
 }
+
+[data-valid="false"] {
+  border-color: red !important;
+}
+
+.segment-input-container {
+  border: 1px solid #d4d6ed;
+  margin:1em 0;
+  padding: 0.5rem;
+  border-radius: 7px;
+  animation: drawIn 0.3s;
+}
+
+.segment-form {
+  width: 20vw;
+}
+
+.segment-group {
+  display: flex;
+  gap:0.5rem;
+  margin-bottom:0.5rem;
+}
+
+.xml-preview {
+  overflow-y: scroll;
+  max-width: 70vw;
+  width: 80vw;
+  max-height: 95vh;
+}
+
+.button-delete {
+  border: 1px solid red;
+  border-radius: 7px;
+  background-color: rgb(247, 209, 209);
+  transition: background-color 0.5s ease;
+  padding: 0.5rem;
+
+  &:hover,
+  &:focus {
+    background-color: rgb(244, 172, 172);
+    transition: background-color 0.3s ease;
+  }
+}
+
+.button-add {
+  font-weight: 700;
+  border: 1px solid rgb(82, 203, 12);
+  border-radius: 7px;
+  background-color: rgb(206, 245, 208);
+  transition: background-color 0.5s ease;
+  padding: 0.5rem;
+
+  &:hover,
+  &:focus {
+    background-color: rgb(172, 239, 127);
+    transition: background-color 0.3s ease;
+  }
+}
+
+@keyframes drawIn{
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  to {
+    opacity: 100;
+    transform: translateX(0);
+  }
+}

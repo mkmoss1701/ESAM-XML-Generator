@@ -18,18 +18,16 @@ const input = defineModel();
     <option value="26">26: Program Immediate Resumption</option>
     <option value="32">32: Chapter Start</option>
     <option value="34">34: Break Start</option>
-    <option value="48">48: Provider Advertisement Start</option>
-    <option value="50">50: Distributor Advertisement Start</option>
-    <option value="52">52: Provider Placement Opportunity Start</option>
-    <option value="54">54: Distributor Placement Opportunity Start</option>
-    <option value="56">56: Provider Overlay Placement Opportunity Start</option>
-    <option value="58">
-      58: Distributor Overlay Placement Opportunity Start
-    </option>
+    <option value="48">48: Provider Advertisement</option>
+    <option value="50">50: Distributor Advertisement</option>
+    <option value="52">52: Provider Placement Opportunity</option>
+    <option value="54">54: Distributor Placement Opportunity</option>
+    <option value="56">56: Provider Overlay Placement Opportunity</option>
+    <option value="58">58: Distributor Overlay Placement Opportunity </option>
     <option value="60">60: Provider Promo</option>
-    <option value="62">62: Distributor Promo Start</option>
+    <option value="62">62: Distributor Promo </option>
     <option value="64">64: Unscheduled Event</option>
-    <option value="66">66: Alternate Content Opportunity Start</option>
+    <option value="66">66: Alternate Content Opportunity</option>
     <option value="68">68: Provider Ad Block</option>
     <option value="70">70: Distributor Ad Block</option>
     <option value="80">80: Network Start</option>

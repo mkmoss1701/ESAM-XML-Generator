@@ -2,9 +2,15 @@
 import { ref, computed, reactive } from "vue";
 import XmlViewer from "vue3-xml-viewer";
 import SegmentTypeId from "./components/SegmentTypeId.vue";
+import { getSegmentPair } from "./modules/SegmentPairs";
 
-const aquisitionPointIdentity = ref();
+
+const aquisitionPointIdentity = ref('');
+
+//Init the array we will use for segment state
 const segmentSource = [];
+
+//Create a reactive proxy to manage state for the segmet array.
 const segments = reactive(segmentSource);
 
 /**
@@ -30,44 +36,11 @@ const signalXML = computed(() => {
   let segmentsOutput = ``;
 
   segments.forEach((segment, index) => {
-    segmentsOutput = segmentsOutput.concat(getSegmentPair(segment, index));
+    segmentsOutput = segmentsOutput.concat(getSegmentPair(segment, index, aquisitionPointIdentity.value));
   });
 
   return `${xmlHead}${segmentsOutput}${xmlEnd}`;
 });
-
-/**
- * Lets break this up a little bit to make it easier to read later...
- */
-function getSegmentPair(segment, index) {
-  //Lets destructure out the pieces of a segment because we have some calculations to make, and its easier to read.
-  const { segmentStart, segmentDuration, segmentTypeID } = segment;
-
-  //Calculate the end of the ending segment
-  const segmentEnd = segmentStart + segmentDuration;
-
-  return `<ResponseSignal acquisitionPointIdentity="${
-    aquisitionPointIdentity.value
-  }" acquisitionSignalID="1" signalPointID="${segmentStart}" action="create">
-      <sig:NPTPoint nptPoint="${segmentStart}"/>
-      <sig:SCTE35PointDescriptor spliceCommandType="06">
-        <sig:SegmentationDescriptorInfo segmentEventId="${index}" segmentTypeId="${segmentTypeId}" upidType="9" upid="1" duration="PT${segmentDuration}S" segmentNumber="${index}" segmentsExpected="1"/>
-      </sig:SCTE35PointDescriptor>
-    </ResponseSignal>
-    <ConditioningInfo acquisitionSignalIDRef="1" startOffset="PT${segmentStart}S" duration="PT${segmentDuration}S"/>
-    
-    <ResponseSignal acquisitionPointIdentity="${
-      aquisitionPointIdentity.value
-    }" acquisitionSignalID="1" signalPointID="${segmentEnd}" action="create">
-      <sig:NPTPoint nptPoint="${segmentEnd}"/>
-      <sig:SCTE35PointDescriptor spliceCommandType="06">
-        <sig:SegmentationDescriptorInfo segmentEventId="1" segmentTypeId="${
-          parseInt(segmentTypeId) + 1
-        }" upidType="9" upid="1" duration="PT${segmentDuration}S" segmentNumber="${index}" segmentsExpected="1"/>
-      </sig:SCTE35PointDescriptor>
-    </ResponseSignal>
-    <ConditioningInfo acquisitionSignalIDRef="1" startOffset="PT60S" duration="PT${segmentDuration}S"/>`;
-}
 
 function addSegment() {
   segments.push({ segmentTypeId: 52, segmentStart: "", segmentDuration: "" });
@@ -76,44 +49,47 @@ function addSegment() {
 function removeSegment(index) {
   segments.splice(index, 1);
 }
+
+function copyOutput() {
+ navigator.clipboard.writeText(signalXML.value);
+}
+
 </script>
 
 <template>
   <main style="display: grid; grid-template-columns: 1fr 1fr; gap: 2em">
-    <section>
-      <div>
+    <section class="segment-form">
+      <h1>SCTE-35 Marker XML Generator</h1>
+      <div class="segment-group">
         <label>Aquisition Point Identity</label>
-        <input type="text" v-model="aquisitionPointIdentity" />
+        <input type="text" v-model="aquisitionPointIdentity"/>
       </div>
 
-      <div v-for="(segment, index) in segments">
-        <div>
-          <label>Segment Type ID</label>
+      <div v-for="(segment, index) in segments" class="segment-input-container">
+        <h2>Segment {{ index + 1 }}</h2>
+        <div class="segment-group">
+          <label>Type ID:</label>
           <segmentTypeId v-model="segments[index].segmentTypeId" />
         </div>
-        <div>
-          <label>Segment Start {{ index + 1 }}</label>
-          <input
-            type="number"
-            name="segmentStart"
-            v-model="segments[index].segmentStart"
-          />
+        <div class="segment-group">
+          <label>Segment Start:</label>
+          <input type="number" name="segmentStart" v-model="segments[index].segmentStart" :data-valid="segments[index].segmentStart != ''"/>
         </div>
-        <div>
-          <label>Segment Duration {{ index + 1 }}</label>
-          <input
-            type="number"
-            name="segmentDuration"
-            v-model="segments[index].segmentDuration"
-          />
+        <div class="segment-group">
+          <label>Segment Duration:</label>
+          <input type="number" name="segmentDuration" v-model="segments[index].segmentDuration" :data-valid="segments[index].segmentDuration != ''"/>
         </div>
-        <button @click.prevent="removeSegment(index)">Delete</button>
+        <button @click.prevent="removeSegment(index)" class="button-delete">Delete</button>
       </div>
 
-      <button @click="addSegment">Add Segment</button>
+      <div style="display:flex; gap:1rem;">
+        <button @click="addSegment" class="button-add">Add Segment</button>
+        <button @click="copyOutput">Copy Output</button>
+      </div>
+      
     </section>
 
-    <section>
+    <section class="xml-preview">
       <XmlViewer :xml="signalXML" />
     </section>
   </main>
