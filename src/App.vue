@@ -4,7 +4,7 @@ import XmlViewer from "vue3-xml-viewer";
 import SegmentTypeId from "./components/SegmentTypeId.vue";
 import { getSegmentPair } from "./modules/SegmentPairs";
 
-
+//A reactive variable to manage the Point identity with
 const aquisitionPointIdentity = ref('');
 
 //Init the array we will use for segment state
@@ -26,15 +26,20 @@ addSegment();
  * stirng to feed it into the viewer component.
  */
 const signalXML = computed(() => {
-  const xmlHead = `<SignalProcessingNotification xmlns="urn:cablelabs:iptvservices:esam:xsd:signal:1" xmlns:sig="urn:cablelabs:md:xsd:signaling:3.0" xmlns:common="urn:cablelabs:iptvservices:esam:xsd:common:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" acquisitionPointIdentity="ExampleESAM">
+  const xmlHead = `
+  <SignalProcessingNotification xmlns="urn:cablelabs:iptvservices:esam:xsd:signal:1" xmlns:sig="urn:cablelabs:md:xsd:signaling:3.0" xmlns:common="urn:cablelabs:iptvservices:esam:xsd:common:1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" acquisitionPointIdentity="${aquisitionPointIdentity.value}">
 
     <common:BatchInfo batchId="1">
       <common:Source xsi:type="content:MovieType" />
-    </common:BatchInfo>`;
+    </common:BatchInfo>
+  `;
 
-  const xmlEnd = `</SignalProcessingNotification>`;
+  const xmlEnd = `
+  </SignalProcessingNotification>
+  `;
+
+  //We will be smashing segments into this momentarily 
   let segmentsOutput = ``;
-
   segments.forEach((segment, index) => {
     segmentsOutput = segmentsOutput.concat(getSegmentPair(segment, index, aquisitionPointIdentity.value));
   });
@@ -51,13 +56,13 @@ function removeSegment(index) {
 }
 
 function copyOutput() {
- navigator.clipboard.writeText(signalXML.value);
+ navigator.clipboard.writeText(`<?xml version="1.0" encoding="UTF-8"?>${signalXML.value}`);
 }
 
 </script>
 
 <template>
-  <main style="display: grid; grid-template-columns: 1fr 1fr; gap: 2em">
+  <main>
     <section class="segment-form">
       <h1>SCTE-35 Marker XML Generator</h1>
       <div class="segment-group">
@@ -94,32 +99,3 @@ function copyOutput() {
     </section>
   </main>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
