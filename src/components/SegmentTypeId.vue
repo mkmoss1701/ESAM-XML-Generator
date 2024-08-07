@@ -4,7 +4,7 @@ const input = defineModel();
 
 <template>
   <select v-model="input">
-    <option value="0">0: Not Indicated</option>
+    <!-- <option value="0">0: Not Indicated</option>
     <option value="1">1: Content Identification</option>
     <option value="16">16: Program Start</option>
     <option value="18">18: Program Early Termination</option>
@@ -15,7 +15,7 @@ const input = defineModel();
     <option value="23">23: Program Overlap: Start</option>
     <option value="24">24: Program Blackout Override</option>
     <option value="25">25: Program Join</option>
-    <option value="26">26: Program Immediate Resumption</option>
+    <option value="26">26: Program Immediate Resumption</option> -->
     <option value="32">32: Chapter Start</option>
     <option value="34">34: Break Start</option>
     <option value="48">48: Provider Advertisement</option>
