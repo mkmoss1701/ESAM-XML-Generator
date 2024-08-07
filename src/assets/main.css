@@ -1,10 +1,14 @@
 @import './base.css';
 
 #app {
-  max-width: 90vw;
+  max-width: 95vw;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2rem 0;
   font-weight: normal;
+}
+
+main {
+  display: block;
 }
 
 a,
@@ -27,7 +31,7 @@ a,
     place-items: center;
   }
 
-  #app {
+  main {
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
@@ -47,7 +51,7 @@ a,
 }
 
 .segment-form {
-  width: 20vw;
+  width: auto;
 }
 
 .segment-group {
@@ -58,9 +62,20 @@ a,
 
 .xml-preview {
   overflow-y: scroll;
-  max-width: 70vw;
-  width: 80vw;
+  max-width: 95vw;
+  width: auto;
   max-height: 95vh;
+}
+
+@media (min-width: 1024px) {
+  .segment-form {
+    width: 20vw;
+  }
+  
+  .xml-preview {
+    max-width: 70vw;
+    width: 80vw;
+  }
 }
 
 .button-delete {
