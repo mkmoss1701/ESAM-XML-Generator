@@ -25,8 +25,9 @@ export function getSegmentPair(segment, index, aquisitionPointIdentity, offset =
  const segmentEnd = segmentStart + segmentDuration;
  const segmentEndPoint = Math.floor(segmentEnd).toFixed(2);
 
+ //commenting out to remove end segment in xml unsure if this will resole issues **********************************
  //Anything running through here is assumed to need a paired Response Signal to mark its endpoint. Start and end codes in the SCTE specs are offset by one. Increase the segment Type ID by one. 
- const segmentTypeIdEnd = parseInt(segmentTypeId) + 1;
+// const segmentTypeIdEnd = parseInt(segmentTypeId) + 1;
 
  return `<ResponseSignal acquisitionPointIdentity="${aquisitionPointIdentity}" acquisitionSignalID="${startSignalId}" signalPointID="${segmentStartPoint}" action="create">
      <sig:NPTPoint nptPoint="${segmentStartPoint}"/>
